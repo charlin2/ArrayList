@@ -115,10 +115,12 @@ public class NumArrayList implements NumList {
     @Override
     public boolean equals(NumList otherList) {
         if (size() != otherList.size()) return false;
+        else if (size() == 0 && otherList.size() == 0) return true;
         else {
             int otherListCounter = 0;
             for (double d : list) {
                 if (d != otherList.lookup(otherListCounter)) return false;
+                otherListCounter++;
             }
         }
         return true;
@@ -126,7 +128,14 @@ public class NumArrayList implements NumList {
     
     @Override
     public void removeDuplicates() {
-        
+        for (int i = 0; i < size()-1; i++) {
+            for (int compare = i + 1; compare < size(); compare++) {
+                if (list[i] == list[compare]) {
+                    remove(compare);
+                    compare--;
+                }
+            }
+        }
     }
 
     @Override

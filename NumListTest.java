@@ -6,7 +6,7 @@ public class NumListTest {
     NumArrayList list = new NumArrayList();
 
     /**
-     * Testing independence of <i>size</> and <i>capacity</i>, <i>add</i>
+     * Testing independence of <i>size</i> and <i>capacity</i>, <i>add</i>
      */
     @Test
     public void testAdd() {
@@ -122,24 +122,117 @@ public class NumListTest {
 
     @Test
     public void testRemove() {
+        // calling remove on empty list to make sure there are no exceptions thrown
+        list.remove(0);
+        list = new NumArrayList(3);
+        list.remove(0);
+
         list.add(0);
         list.add(1);
         list.add(2);
         list.add(3);
         list.add(4);
 
-        // test first
+        // test first {1, 2, 3, 4}
         list.remove(0);
         Assert.assertEquals(1, list.lookup(0), 0.01);
         Assert.assertEquals(false, list.contains(0));
         Assert.assertEquals(4, list.size(), 0.01);
         Assert.assertEquals(5, list.capacity(), 0.01);
 
-        // test last
+        // test last {1, 2, 3}
         list.remove(3);
         Assert.assertEquals(false, list.contains(4));
         Assert.assertEquals(3, list.size(), 0.01);
         Assert.assertEquals(5, list.capacity(), 0.01);
 
+        // test middle {1, 3}
+        list.remove(1);
+        Assert.assertEquals(false, list.contains(2));
+        Assert.assertEquals(2, list.size(), 0.01);
+        Assert.assertEquals(5, list.capacity(), 0.01);
+    }
+
+    @Test
+    public void testEquals() {
+        NumArrayList otherList = new NumArrayList();
+
+        // test 0
+        Assert.assertEquals(true, list.equals(otherList));
+        Assert.assertEquals(true, otherList.equals(list));
+
+        otherList = new NumArrayList(5);
+        Assert.assertEquals(true, list.equals(otherList));
+        Assert.assertEquals(true, otherList.equals(list));
+
+        // test 1
+        otherList.add(1);
+        list.add(1);
+        Assert.assertEquals(true, list.equals(otherList));
+
+        // test many
+        otherList.add(2);
+        otherList.add(3);
+        list.add(2);
+        list.add(3);
+        Assert.assertEquals(true, list.equals(otherList));
+
+        list.remove(2);
+        Assert.assertEquals(false, otherList.equals(list));
+
+        // empty list compared to populated list
+        list = new NumArrayList();
+        Assert.assertEquals(false, otherList.equals(list));
+    }
+
+    @Test
+    public void testToString() {
+        // empty list
+        Assert.assertEquals("", list.toString());
+        list = new NumArrayList(3);
+        Assert.assertEquals("", list.toString());
+
+        // test 1
+        list.add(1);
+        Assert.assertEquals("1.0", list.toString());
+
+        // test many
+        list.add(2);
+        list.add(30);
+        Assert.assertEquals("1.0 2.0 30.0", list.toString());
+    }
+
+    @Test
+    public void testRemoveDuplicates() {
+        // empty list (checking to see if there are any exceptions thrown)
+        list.removeDuplicates();
+        Assert.assertEquals("", list.toString());
+        list = new NumArrayList(3);
+        list.removeDuplicates();
+        Assert.assertEquals("", list.toString());
+
+        // test one
+        list.add(1);
+        list.removeDuplicates();
+        Assert.assertEquals("1.0", list.toString());
+
+        // test many with no duplicates
+        list.add(2);
+        list.removeDuplicates();
+        Assert.assertEquals("1.0 2.0", list.toString());
+
+        // test many with one duplicate
+        list.add(1);
+        list.removeDuplicates();
+        Assert.assertEquals("1.0 2.0", list.toString());
+
+        // test many with many duplicates
+        list.add(1);
+        list.add(1);
+        list.add(2);
+        list.add(1);
+        list.add(2);
+        list.removeDuplicates();
+        Assert.assertEquals("1.0 2.0", list.toString());
     }
 }
