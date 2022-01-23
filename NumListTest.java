@@ -123,9 +123,14 @@ public class NumListTest {
     @Test
     public void testRemove() {
         // calling remove on empty list to make sure there are no exceptions thrown
-        list.remove(0);
-        list = new NumArrayList(3);
-        list.remove(0);
+        try {
+            list.remove(0);
+            list = new NumArrayList(3);
+            list.remove(0);
+        }
+        catch (Exception e) {
+            Assert.assertFalse(true);
+        }
 
         list.add(0);
         list.add(1);
@@ -215,16 +220,19 @@ public class NumListTest {
         list.add(1);
         list.removeDuplicates();
         Assert.assertEquals("1.0", list.toString());
+        Assert.assertEquals(1, list.size());
 
         // test many with no duplicates
         list.add(2);
         list.removeDuplicates();
         Assert.assertEquals("1.0 2.0", list.toString());
+        Assert.assertEquals(2, list.size());
 
         // test many with one duplicate
         list.add(1);
         list.removeDuplicates();
         Assert.assertEquals("1.0 2.0", list.toString());
+        Assert.assertEquals(2, list.size());
 
         // test many with many duplicates
         list.add(1);
@@ -234,5 +242,7 @@ public class NumListTest {
         list.add(2);
         list.removeDuplicates();
         Assert.assertEquals("1.0 2.0", list.toString());
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(7, list.capacity());
     }
 }

@@ -114,12 +114,13 @@ public class NumArrayList implements NumList {
 
     @Override
     public boolean equals(NumList otherList) {
+        if (!(otherList instanceof NumArrayList)) return false;
         if (size() != otherList.size()) return false;
         else if (size() == 0 && otherList.size() == 0) return true;
         else {
             int otherListCounter = 0;
-            for (double d : list) {
-                if (d != otherList.lookup(otherListCounter)) return false;
+            for (int i = 0; i < size(); i++) {
+                if (list[i] != otherList.lookup(otherListCounter)) return false;
                 otherListCounter++;
             }
         }
@@ -128,11 +129,13 @@ public class NumArrayList implements NumList {
     
     @Override
     public void removeDuplicates() {
+        // each unique element only needs to be checked once
         for (int i = 0; i < size()-1; i++) {
+            // removes all instances of element after the first occurrence
             for (int compare = i + 1; compare < size(); compare++) {
                 if (list[i] == list[compare]) {
                     remove(compare);
-                    compare--;
+                    compare--;        // after list resizing, "next" element stays in place 
                 }
             }
         }
@@ -150,4 +153,61 @@ public class NumArrayList implements NumList {
         return arrayString.toString();
     }
 
+    public static void main(String[] args) {
+        NumArrayList demoList = new NumArrayList();
+        System.out.println("NumArrayList demoList = new NumArrayList()");
+        System.out.println("Empty list will return an empty list.\n" + "Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\ndemoList.add(10)");
+        demoList.add(10);
+        System.out.println("Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\ndemoList.add(20)");
+        System.out.println("demoList.add(30)");
+        System.out.println("demoList.add(50)");
+        demoList.add(20);
+        demoList.add(30);
+        demoList.add(50);
+        System.out.println("Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\ndemoList.insert(3, 40)");
+        demoList.insert(3, 40);
+        System.out.println("Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\ndemoList.remove(1)");
+        demoList.remove(1);
+        System.out.println("Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\ndemoList.contains(20) \n" + demoList.contains(20));
+        System.out.println("\ndemoList.lookup(1) \n" + demoList.lookup(1));
+        System.out.println("\ndemoList.add(10)");
+        System.out.println("demoList.add(10)");
+        System.out.println("demoList.add(40)");
+        System.out.println("demoList.add(30)");
+        demoList.add(10);
+        demoList.add(10);
+        demoList.add(40);
+        demoList.add(30);
+        System.out.println("demoList.removeDuplicates()");
+        demoList.removeDuplicates();
+        System.out.println("Current list: " + demoList.toString());
+        System.out.println("Current list size: " + demoList.size());
+        System.out.println("Current list capacity: " + demoList.capacity());
+        System.out.println("\nNumArrayList compareList = new NumArrayList(30)");
+        NumArrayList compareList = new NumArrayList(30);
+        System.out.println("compareList.add(10)");
+        System.out.println("compareList.add(30)");
+        System.out.println("compareList.add(40)");
+        System.out.println("compareList.add(50)");
+        compareList.add(10);
+        compareList.add(30);
+        compareList.add(40);
+        compareList.add(50);
+        System.out.println("demoList.equals(compareList)\n" + demoList.equals(compareList));
+    }
 }
