@@ -88,8 +88,6 @@ public class NumArrayList implements NumList {
     public void remove(int i) {
         if (i >= size()) {
             // do nothing
-        } else if (i == size()-1) {
-            size--;
         } else {
             for (int index = i; index < size()-1; index++) {
                 list[index] = list[index+1];
