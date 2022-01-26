@@ -114,7 +114,6 @@ public class NumArrayList implements NumList {
 
     @Override
     public boolean equals(NumList otherList) {
-        if (!(otherList instanceof NumArrayList)) return false;
         if (size() != otherList.size()) return false;
         else if (size() == 0 && otherList.size() == 0) return true;
         else {

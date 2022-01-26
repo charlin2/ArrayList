@@ -245,4 +245,5 @@ public class NumListTest {
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(7, list.capacity());
     }
+    
 }
