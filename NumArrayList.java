@@ -54,7 +54,7 @@ public class NumArrayList implements NumList {
 
     @Override
     public void insert(int i, double value) {
-        if (i >= size()) {
+        if (i >= size() || i < 0) {
             add(value);
         }
         // array does not need to be resized
@@ -86,7 +86,7 @@ public class NumArrayList implements NumList {
 
     @Override
     public void remove(int i) {
-        if (i >= size()) {
+        if (i >= size() || i < 0) {
             // do nothing
         } else {
             for (int index = i; index < size()-1; index++) {
